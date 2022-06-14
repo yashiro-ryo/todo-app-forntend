@@ -6,6 +6,7 @@ import DashBoard from "./components/DashBoard";
 import Footer from "./components/Footer";
 import Profile from "./components/Profile";
 import Setting from "./components/Setting";
+import Logout from "./components/Logout";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -27,7 +28,10 @@ function App() {
             <div>ヘルプページ予定地</div>
           </Route>
           <Route path="/signout">
-            <div>サインアウト予定地</div>
+            <Logout />
+          </Route>
+          <Route path="*">
+            <DashBoard />
           </Route>
         </Switch>
         <Footer />

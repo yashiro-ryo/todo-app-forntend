@@ -7,9 +7,14 @@ import { emitter } from "../service/event";
 
 export default function NavBar() {
   const [userName, setUserName] = useState("");
-  emitter.once("signin-ok", () => {
+  emitter.once("update-user-info", () => {
     setUserName(getUserName());
   });
+
+  emitter.once("do-signout", () => {
+    setUserName("");
+  });
+
   return (
     <Navbar
       className="navbar"

@@ -1,11 +1,11 @@
-import react from 'react'
-import { Container, Card, Form, Button } from 'react-bootstrap'
-import '../style/Setting.scss'
+import react from "react";
+import { Container, Card, Form, Button } from "react-bootstrap";
+import "../style/Setting.scss";
 
 export default function Setting() {
   return (
     <Container>
-      <Card >
+      <Card>
         <Card.Header>設定</Card.Header>
         <Card.Body>
           <Form>
@@ -16,5 +16,5 @@ export default function Setting() {
         </Card.Body>
       </Card>
     </Container>
-  )
+  );
 }

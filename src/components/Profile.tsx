@@ -7,9 +7,16 @@ import "../style/Profile.scss";
 export default function Profile() {
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState(0);
-  emitter.once("signin-ok", () => {
+  emitter.once("update-user-info", () => {
     setUserName(getUserName());
     setUserId(getUserId());
+  });
+
+  emitter.once("do-signout", () => {
+    setTimeout(() => {
+      setUserName("");
+      setUserId(0);
+    }, 100);
   });
   return (
     <div className="profile">
