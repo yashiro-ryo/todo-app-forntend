@@ -1,46 +1,97 @@
-# Getting Started with Create React App
+# Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Todo-appのフロントエンド
 
-## Available Scripts
+## 起動方法
 
-In the project directory, you can run:
+### ソースコード取得
+`git clone https://github.com/yashiro-ryo/todo-app-forntend.git`
 
-### `npm start`
+### 必要なパッケージのインストール
+`npm install`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 起動
+`npm run start`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 起動した様子
 
-### `npm test`
+### dashboard
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+タスクがない時
 
-### `npm run build`
+<img width="1440" alt="スクリーンショット 2022-06-14 14 59 11" src="https://user-images.githubusercontent.com/90020478/173510032-b32f86f4-f5f3-4797-ba93-71fb5ad1bb21.png">
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+タスクが追加された時
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<img width="1440" alt="スクリーンショット 2022-06-14 14 59 58" src="https://user-images.githubusercontent.com/90020478/173510181-132c27fb-b1b4-4feb-a649-f0f3dd93d465.png">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+タスクを削除する際の確認画面
 
-### `npm run eject`
+<img width="1440" alt="スクリーンショット 2022-06-14 15 40 52" src="https://user-images.githubusercontent.com/90020478/173510295-1f451eda-8a87-4cb0-ab36-5bdf37212237.png">
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+タスクを更新するモーダル
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<img width="1440" alt="スクリーンショット 2022-06-14 15 41 29" src="https://user-images.githubusercontent.com/90020478/173510399-6b178142-5fd9-4304-a473-79947c86b77a.png">
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 使用している技術
 
-## Learn More
+言語: Typescript, scss
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+UIフレームワーク: React, React-Form-hook
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+cssフレームワーク: Bootstrap-React
+
+apiリクエスト部分: axios
+
+## ファイル構造
+
+<pre>
+.
+├── README.md
+├── build     ビルドファイル
+├── package-lock.json
+├── package.json
+├── public  
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── src
+│   ├── App.test.tsx
+│   ├── App.tsx
+│   ├── components    UIコンポーネント
+│   │   ├── DashBoard.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Logout.tsx
+│   │   ├── NavBar.tsx
+│   │   ├── Profile.tsx
+│   │   └── Setting.tsx
+│   ├── config
+│   │   └── axiosConfig.ts    axiosの設定
+│   ├── datastore
+│   │   └── userDataStore.ts  User情報とアプリケーションの状態を保存しておくdatastore
+│   ├── index.tsx
+│   ├── logo.svg
+│   ├── react-app-env.d.ts
+│   ├── reportWebVitals.ts
+│   ├── service
+│   │   ├── authService.ts
+│   │   └── event.ts
+│   ├── setupTests.ts
+│   └── style
+│       ├── App.scss
+│       ├── DashBoard.scss
+│       ├── Footer.scss
+│       ├── NavBar.scss
+│       ├── Profile.scss
+│       ├── Setting.scss
+│       └── index.scss
+└── tsconfig.json
+</pre>
+
+## デプロイ
+
+準備中（herokuにデプロイ予定)
