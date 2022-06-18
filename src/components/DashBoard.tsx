@@ -12,15 +12,21 @@ import {
 import "../style/DashBoard.scss";
 import { useForm } from "react-hook-form";
 import React from "react";
-import { getUserToken, getUserId } from "../datastore/userDataStore";
+import {
+  getUserToken,
+  getUserId,
+  setTasks,
+  getTasks,
+  addOneTask,
+} from "../datastore/userDataStore";
 import { emitter } from "../service/event";
-import signin from "../service/authService";
+import LoadingPane from "./LoadingPane";
 
-type TaskContents = {
+export type TaskContents = {
   task_id: number;
   task_name: string;
-  task_describe: string;
-  task_deadline: string;
+  task_describe: string | null;
+  task_deadline: string | null;
   task_is_completed: number;
 };
 
@@ -29,7 +35,8 @@ var updateTaskIdChache = 0;
 
 export default function DashBoard() {
   const { register, handleSubmit } = useForm();
-  const [task, setTask] = useState([]);
+  const [task, setDisplayTask] = useState<Array<TaskContents>>([]);
+  const [isShowLoadingPane, setLoadingPaneShow] = useState(true);
   // modal
   const [showEditModal, setEditModalShow] = useState(false);
   const [showDeleteModal, setDeleteModalShow] = useState(false);
@@ -56,40 +63,67 @@ export default function DashBoard() {
     axios
       .get("/tasks", { headers: { token: getUserToken() } })
       .then((result: any) => {
+        console.log("receive task");
         console.log(result);
-        setTask(result.data.task);
+        setDisplayTask(result.data.task);
+        setTasks(result.data.task);
+        setLoadingPaneShow(false);
       });
   };
 
   // create task
   // TODO any修正する
-  const createNewTask = (data: any) => {
+  const handleCreateNewTask = (data: any) => {
     if (data.newTask.length === 0) {
       setTaskErrorMsg("1文字以上入力してください");
       return;
     }
-    console.log(data.newTask);
-    setTaskErrorMsg("");
-    axios.post(
-      "/tasks",
-      {
-        taskName: data.newTask,
-        describe: null,
-        deadline: null,
-        isCompleted: 0,
-      },
-      { headers: { token: getUserToken() } }
-    );
 
-    setTimeout(() => {
-      getAllTasks();
-    }, 100);
+    if (data.newTask.length === 50) {
+      setTaskErrorMsg("50文字以上は登録できません");
+      return;
+    }
+    setTaskErrorMsg("");
+    console.log("add one task");
+    const tempTask = task;
+    tempTask.push({
+      task_id: 0,
+      task_name: data.newTask,
+      task_describe: null,
+      task_deadline: null,
+      task_is_completed: 0,
+    });
+    setDisplayTask(tempTask);
+    console.log("長さ :" + task.length);
+    console.log(task);
+    createNewTask(data.newTask);
+  };
+
+  const createNewTask = (taskName: string) => {
+    axios
+      .post(
+        "/tasks",
+        {
+          taskName: taskName,
+          describe: null,
+          deadline: null,
+          isCompleted: 0,
+        },
+        { headers: { token: getUserToken() } }
+      )
+      .then(() => {
+        getAllTasks();
+      });
   };
 
   // delete task
   const deleteTask = (taskId: number) => {
     console.log("delete task id :" + taskId);
-    axios.delete(`/tasks/${taskId}`, { headers: { token: getUserToken() } });
+    axios
+      .delete(`/tasks/${taskId}`, { headers: { token: getUserToken() } })
+      .then(() => {
+        getAllTasks();
+      });
   };
 
   const handleDeleteTask = () => {
@@ -99,11 +133,16 @@ export default function DashBoard() {
     if (deleteTaskIdChache == null) {
       return;
     }
+    // 消すtaskを見かけ状削除されたように見せる
+    const resultIndex = task.findIndex((obj) => {
+      return obj.task_id == deleteTaskIdChache;
+    });
+    if (resultIndex == null) {
+      return;
+    }
+    task.splice(resultIndex, 1);
+    setDisplayTask(task);
     deleteTask(deleteTaskIdChache);
-
-    setTimeout(() => {
-      getAllTasks();
-    }, 100);
   };
 
   // update task
@@ -114,25 +153,44 @@ export default function DashBoard() {
     if (data.taskName.length === 0) {
       return;
     }
-    axios.patch(
-      `/tasks/${updateTaskIdChache}`,
-      {
-        taskName: data.taskName,
-        describe: data.describe.length === 0 ? null : data.describe,
-        deadline: data.deadline.length === 0 ? null : data.deadline,
-        isCompleted: 0,
-      },
-      { headers: { token: getUserToken() } }
-    );
 
-    setTimeout(() => {
-      getAllTasks();
-    }, 100);
+    const localTasks = getTasks();
+    const resultIndex = localTasks.findIndex((obj) => {
+      return obj.task_id == deleteTaskIdChache;
+    });
+    if (resultIndex == null) {
+      return;
+    }
+    localTasks.splice(resultIndex, 1, {
+      task_id: 0,
+      task_name: data.taskName,
+      task_describe: data.describe,
+      task_deadline: data.deadline,
+      task_is_completed: 0,
+    });
+    console.log(localTasks);
+    setDisplayTask(localTasks);
+    console.log(localTasks);
+    axios
+      .patch(
+        `/tasks/${updateTaskIdChache}`,
+        {
+          taskName: data.taskName,
+          describe: data.describe.length === 0 ? null : data.describe,
+          deadline: data.deadline.length === 0 ? null : data.deadline,
+          isCompleted: 0,
+        },
+        { headers: { token: getUserToken() } }
+      )
+      .then(() => {
+        getAllTasks();
+      });
   };
 
   // 初回のみログイン情報読み込み
   emitter.once("signin-ok", () => {
     getAllTasks();
+    emitter.off("signin-ok", () => {});
   });
 
   const displayTaskInline = (taskArray: Array<TaskContents>) => {
@@ -243,7 +301,7 @@ export default function DashBoard() {
         <Card className="card create-task">
           <Card.Header>タスク作成</Card.Header>
           <Card.Body>
-            <Form onSubmit={handleSubmit(createNewTask)}>
+            <Form onSubmit={handleSubmit(handleCreateNewTask)}>
               <Form.Label>タスク名</Form.Label>
               <Form.Control
                 type="text"
@@ -262,7 +320,11 @@ export default function DashBoard() {
         <Card className="card uncomplete-task">
           <Card.Header>タスク</Card.Header>
           <Card.Body>
-            <ListGroup>{displayTaskInline(task)}</ListGroup>
+            {isShowLoadingPane ? (
+              LoadingPane()
+            ) : (
+              <ListGroup>{displayTaskInline(task)}</ListGroup>
+            )}
           </Card.Body>
         </Card>
       </Container>

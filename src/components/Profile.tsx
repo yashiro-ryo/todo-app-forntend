@@ -10,6 +10,7 @@ export default function Profile() {
   emitter.once("update-user-info", () => {
     setUserName(getUserName());
     setUserId(getUserId());
+    emitter.off("update-user-info", () => {});
   });
 
   emitter.once("do-signout", () => {
@@ -17,6 +18,7 @@ export default function Profile() {
       setUserName("");
       setUserId(0);
     }, 100);
+    emitter.off("do-signout", () => {});
   });
   return (
     <div className="profile">

@@ -7,8 +7,9 @@ import { emitter } from "../service/event";
 import axios from "../config/axiosConfig";
 
 export default function signin() {
-  const token = localStorage.getItem("data-user-token");
-  //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJ1c2VyTmFtZSI6IuW-s-WztuWkqumDjiIsInNldHRpbmciOnsiaXNEZWxldGVNb2RhbFNob3ciOjF9LCJpYXQiOjE2NTQ5NTg4ODZ9.3QRqu_-DMA-nlhKvx39-ihsacMb0mKVhXMO5j0nE4no";
+  //const token = localStorage.getItem("data-user-token");
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJ1c2VyTmFtZSI6IuW-s-WztuWkqumDjiIsInNldHRpbmciOnsiaXNEZWxldGVNb2RhbFNob3ciOjF9LCJpYXQiOjE2NTQ5NTg4ODZ9.3QRqu_-DMA-nlhKvx39-ihsacMb0mKVhXMO5j0nE4no";
   if (token?.length != 0 && token != null) {
     setTimeout(() => {
       console.log("token exists local storage");

@@ -1,6 +1,9 @@
+import { TaskContents } from "../components/DashBoard";
+
 var userId = 0;
 var userName = "";
 var userToken = "";
+var task: Array<TaskContents> = [];
 
 export function getUserId() {
   return userId;
@@ -26,11 +29,14 @@ export function setUserToken(token: string) {
   userToken = token;
 }
 
-export default {
-  getUserId,
-  setUserId,
-  getUserName,
-  setUserName,
-  setUserToken,
-  getUserToken,
-};
+export function setTasks(addTasks: Array<TaskContents>) {
+  task = addTasks;
+}
+
+export function getTasks() {
+  return task;
+}
+
+export function addOneTask(addTask: TaskContents) {
+  task.push(addTask);
+}
