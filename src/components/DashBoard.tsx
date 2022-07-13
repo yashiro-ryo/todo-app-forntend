@@ -79,7 +79,7 @@ export default function DashBoard() {
       return;
     }
 
-    if (data.newTask.length === 50) {
+    if (data.newTask.length >= 50) {
       setTaskErrorMsg("50文字以上は登録できません");
       return;
     }
