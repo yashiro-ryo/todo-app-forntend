@@ -34,7 +34,7 @@ var deleteTaskIdChache = 0;
 var updateTaskIdChache = 0;
 
 export default function DashBoard() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, resetField } = useForm();
   const [task, setDisplayTask] = useState<Array<TaskContents>>([]);
   const [isShowLoadingPane, setLoadingPaneShow] = useState(true);
   // modal
@@ -97,6 +97,7 @@ export default function DashBoard() {
     console.log("長さ :" + task.length);
     console.log(task);
     createNewTask(data.newTask);
+    resetField("newTask");
   };
 
   const createNewTask = (taskName: string) => {
