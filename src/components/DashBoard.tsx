@@ -18,6 +18,7 @@ import {
   setTasks,
   getTasks,
   addOneTask,
+  getSettings,
 } from "../datastore/userDataStore";
 import { emitter } from "../service/event";
 import LoadingPane from "./LoadingPane";
@@ -52,6 +53,10 @@ export default function DashBoard() {
     deleteTaskIdChache = Number(
       event.currentTarget.getAttribute("data-task-id")
     );
+    if (getSettings().isDeleteModalShow === false) {
+      handleDeleteTask();
+      return;
+    }
     setDeleteModalShow(true);
   };
   // error msg

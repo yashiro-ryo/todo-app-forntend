@@ -1,9 +1,16 @@
 import { TaskContents } from "../components/DashBoard";
 
+type Settings = {
+  isDeleteModalShow: boolean;
+};
+
 var userId = 0;
 var userName = "";
 var userToken = "";
 var task: Array<TaskContents> = [];
+var localSettings = {
+  isDeleteModalShow: true,
+};
 
 export function getUserId() {
   return userId;
@@ -39,4 +46,12 @@ export function getTasks() {
 
 export function addOneTask(addTask: TaskContents) {
   task.push(addTask);
+}
+
+export function setSettings(settings: Settings) {
+  localSettings = settings;
+}
+
+export function getSettings() {
+  return localSettings;
 }

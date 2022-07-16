@@ -1,3 +1,17 @@
 .card {
   margin-top: 20px;
+
+  .status-msg {
+    font-size: 20px;
+    color: #0000ff
+  }
+
+  .setting-index {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .btn-update {
+    margin-top: 10px;
+  }
 }
