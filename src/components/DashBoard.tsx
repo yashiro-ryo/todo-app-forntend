@@ -22,6 +22,7 @@ import {
 } from "../datastore/userDataStore";
 import { emitter } from "../service/event";
 import LoadingPane from "./LoadingPane";
+import DeleteTaskModal from "./DeleteTaskModal";
 
 export type TaskContents = {
   task_id: number;
@@ -280,27 +281,6 @@ export default function DashBoard() {
     );
   };
 
-  const deleteTaskModal = () => {
-    return (
-      <Modal show={showDeleteModal} onHide={handleDeleteModalClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>削除</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>本当に削除しても良いですか？ この操作は取り消せません.</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleDeleteModalClose}>
-            キャンセル
-          </Button>
-          <Button variant="danger" onClick={handleDeleteTask}>
-            削除
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  };
-
   return (
     <div id="dashboard">
       <Container className="dashboard-container">
@@ -335,7 +315,11 @@ export default function DashBoard() {
         </Card>
       </Container>
       {editTaskModal()}
-      {deleteTaskModal()}
+      <DeleteTaskModal
+        isDeleteModalVisible={showDeleteModal}
+        setDeleteModalVisible={setDeleteModalShow}
+        handleDeleteTask={handleDeleteTask}
+      />
     </div>
   );
 }
