@@ -140,7 +140,7 @@ export default function DashBoard() {
     }
     // 消すtaskを見かけ状削除されたように見せる
     const resultIndex = task.findIndex((obj) => {
-      return obj.task_id == deleteTaskIdChache;
+      return obj.task_id === deleteTaskIdChache;
     });
     if (resultIndex == null) {
       return;
@@ -161,7 +161,7 @@ export default function DashBoard() {
 
     const localTasks = getTasks();
     const resultIndex = localTasks.findIndex((obj) => {
-      return obj.task_id == deleteTaskIdChache;
+      return obj.task_id === deleteTaskIdChache;
     });
     if (resultIndex == null) {
       return;
