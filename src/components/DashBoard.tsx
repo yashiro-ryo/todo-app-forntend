@@ -21,7 +21,8 @@ import { emitter } from "../service/event";
 import LoadingPane from "./LoadingPane";
 import DeleteTaskModal from "./DeleteTaskModal";
 import Tasks from "./Tasks";
-import Log from '../lib/log'
+import Log from "../lib/log";
+import CreateNewTask from "./CreateNewTask";
 
 export type TaskContents = {
   task_id: number;
@@ -252,25 +253,10 @@ export default function DashBoard() {
   return (
     <div id="dashboard">
       <Container className="dashboard-container">
-        <Card className="card create-task">
-          <Card.Header>タスク作成</Card.Header>
-          <Card.Body>
-            <Form onSubmit={handleSubmit(handleCreateNewTask)}>
-              <Form.Label>タスク名</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="タスク名"
-                {...register("newTask")}
-              />
-              <p style={{ color: "#f00", fontWeight: "bold" }}>
-                {taskErrorMsg}
-              </p>
-              <Button type="submit" className="btn btn-primary">
-                追加
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
+        <CreateNewTask
+          handleCreateNewTask={handleCreateNewTask}
+          createTaskErrorMsg={taskErrorMsg}
+        />
         <Card className="card uncomplete-task">
           <Card.Header>タスク</Card.Header>
           <Card.Body>
