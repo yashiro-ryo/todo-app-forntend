@@ -1,13 +1,6 @@
 import axios from "../config/axiosConfig";
 import { useState } from "react";
-import {
-  Card,
-  Container,
-  Form,
-  Button,
-  ListGroup,
-  Modal,
-} from "react-bootstrap";
+import { Card, Container, ListGroup } from "react-bootstrap";
 import "../style/DashBoard.scss";
 import { useForm } from "react-hook-form";
 import React from "react";
@@ -23,6 +16,7 @@ import DeleteTaskModal from "./DeleteTaskModal";
 import Tasks from "./Tasks";
 import Log from "../lib/log";
 import CreateNewTask from "./CreateNewTask";
+import EditTaskModal from "./EditTaskModal";
 
 export type TaskContents = {
   task_id: number;
@@ -36,7 +30,7 @@ var deleteTaskIdChache = 0;
 var updateTaskIdChache = 0;
 
 export default function DashBoard() {
-  const { register, handleSubmit, resetField } = useForm();
+  const { resetField } = useForm();
   const [task, setDisplayTask] = useState<Array<TaskContents>>([]);
   const [isShowLoadingPane, setLoadingPaneShow] = useState(true);
   // modal
@@ -49,7 +43,6 @@ export default function DashBoard() {
     );
     setEditModalShow(true);
   };
-  const handleDeleteModalClose = () => setDeleteModalShow(false);
   const handleDeleteModalShow = (event: React.MouseEvent) => {
     deleteTaskIdChache = Number(
       event.currentTarget.getAttribute("data-task-id")
@@ -200,56 +193,6 @@ export default function DashBoard() {
     emitter.off("signin-ok", () => {});
   });
 
-  const editTaskModal = () => {
-    return (
-      <Modal show={showEditModal} onHide={handleEditModalClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>タスク編集</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit(updateTask)}>
-            <Form.Label>タスク名</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="タスク名"
-              {...register("taskName")}
-            />
-            <Form.Label>説明</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              placeholder="説明"
-              {...register("describe")}
-            />
-            <Form.Label>締切 (形式: yyyy/mm/dd hh:mm:ss)</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="yyyy/mm/dd hh:mm:ss"
-              {...register("deadline")}
-            />
-            <div className="btn-set">
-              <Button
-                className="cancel-btn"
-                variant="secondary"
-                onClick={handleEditModalClose}
-              >
-                キャンセル
-              </Button>
-              <Button
-                variant="primary"
-                type="submit"
-                className="submit-btn"
-                onClick={handleEditModalClose}
-              >
-                更新
-              </Button>
-            </div>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    );
-  };
-
   return (
     <div id="dashboard">
       <Container className="dashboard-container">
@@ -274,7 +217,11 @@ export default function DashBoard() {
           </Card.Body>
         </Card>
       </Container>
-      {editTaskModal()}
+      <EditTaskModal
+        isEditModalVisible={showEditModal}
+        handleEditModalClose={handleEditModalClose}
+        updateTask={updateTask}
+      />
       <DeleteTaskModal
         isDeleteModalVisible={showDeleteModal}
         setDeleteModalVisible={setDeleteModalShow}
