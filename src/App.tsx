@@ -2,7 +2,7 @@ import React from "react";
 import "./style/App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./components/NavBar";
-import DashBoard from "./components/DashBoard";
+import DashBoard from "./components/DashBoard/DashBoard";
 import Footer from "./components/Footer";
 import Profile from "./components/Profile";
 import Setting from "./components/Setting";

@@ -1,4 +1,4 @@
-import { TaskContents } from "../components/DashBoard";
+import { TaskContents } from "../components/DashBoard/DashBoard";
 
 type Settings = {
   isDeleteModalShow: boolean;

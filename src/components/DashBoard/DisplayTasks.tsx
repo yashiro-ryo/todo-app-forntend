@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, ListGroup } from "react-bootstrap";
 import LoadingPane from "./LoadingPane";
-import Tasks from "./Tasks";
+import Tasks from "../Tasks";
 
 // TODO 型定義を一つの場所にまとめる (ex: /lib/valuesなど)
 type TaskContents = {

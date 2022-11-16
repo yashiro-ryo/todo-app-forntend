@@ -1,7 +1,7 @@
-import axios from "../config/axiosConfig";
+import axios from "../../config/axiosConfig";
 import { useState } from "react";
 import { Container } from "react-bootstrap";
-import "../style/DashBoard.scss";
+import "../../style/DashBoard.scss";
 import { useForm } from "react-hook-form";
 import React from "react";
 import {
@@ -9,10 +9,10 @@ import {
   setTasks,
   getTasks,
   getSettings,
-} from "../datastore/userDataStore";
-import { emitter } from "../service/event";
+} from "../../datastore/userDataStore";
+import { emitter } from "../../service/event";
 import DeleteTaskModal from "./DeleteTaskModal";
-import Log from "../lib/log";
+import Log from "../../lib/log";
 import CreateNewTask from "./CreateNewTask";
 import EditTaskModal from "./EditTaskModal";
 import DisplayTasks from "./DisplayTasks";
