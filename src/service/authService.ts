@@ -8,6 +8,7 @@ import {
 import { emitter } from "../service/event";
 import axios from "../config/axiosConfig";
 import { BASE_URL } from "../config/urlConfig";
+import Log from '../lib/log'
 
 export default function signin() {
   var token = "";
@@ -26,7 +27,7 @@ export default function signin() {
 
   if (token.length !== 0) {
     setTimeout(() => {
-      console.log("token exists local storage");
+      Log.v("token exists local storage");
       setUserToken(token);
       getUserInfo(token);
       emitter.emit("signin-ok");
@@ -40,16 +41,16 @@ export default function signin() {
 
 function getUserInfo(token: string) {
   axios.get("/user", { headers: { token: token } }).then((result) => {
-    console.log(result);
+    Log.v(result);
     setUserId(Number(result.data.userId));
     setUserName(result.data.userName);
     emitter.emit("update-user-info");
   });
   // ユーザー設定の取得
   axios.get("/user/settings", { headers: { token: token } }).then((result) => {
-    console.log(result);
+    Log.v(result);
     setSettings(result.data);
-    console.log(getSettings());
+    Log.v(getSettings());
     emitter.emit("update-settings");
   });
 }

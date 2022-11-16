@@ -5,6 +5,7 @@ import "../style/Setting.scss";
 import { getSettings, getUserToken } from "../datastore/userDataStore";
 import { emitter } from "../service/event";
 import axios from "../config/axiosConfig";
+import Log from '../lib/log'
 
 export default function Setting() {
   const { register, handleSubmit } = useForm();
@@ -20,7 +21,7 @@ export default function Setting() {
   // 設定の読み込み
   // 設定の反映
   const onSubmit = (data: any) => {
-    console.log(data.isDeleteModalShow)
+    Log.v(data.isDeleteModalShow)
     // axios
     axios
       .post(

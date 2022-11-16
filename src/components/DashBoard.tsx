@@ -21,6 +21,7 @@ import { emitter } from "../service/event";
 import LoadingPane from "./LoadingPane";
 import DeleteTaskModal from "./DeleteTaskModal";
 import Tasks from "./Tasks";
+import Log from '../lib/log'
 
 export type TaskContents = {
   task_id: number;
@@ -63,12 +64,12 @@ export default function DashBoard() {
 
   // methods
   const getAllTasks = () => {
-    console.log("get all tasks");
+    Log.v("get all tasks");
     axios
       .get("/tasks", { headers: { token: getUserToken() } })
       .then((result: any) => {
-        console.log("receive task");
-        console.log(result);
+        Log.v("receive task");
+        Log.v(result);
         setDisplayTask(result.data.task);
         setTasks(result.data.task);
         setLoadingPaneShow(false);
@@ -88,7 +89,7 @@ export default function DashBoard() {
       return;
     }
     setTaskErrorMsg("");
-    console.log("add one task");
+    Log.v("add one task");
     const tempTask = task;
     tempTask.push({
       task_id: 0,
@@ -98,8 +99,8 @@ export default function DashBoard() {
       task_is_completed: 0,
     });
     setDisplayTask(tempTask);
-    console.log("長さ :" + task.length);
-    console.log(task);
+    Log.v("長さ :" + task.length);
+    Log.v(task);
     createNewTask(data.newTask);
     resetField("newTask");
   };
@@ -123,7 +124,7 @@ export default function DashBoard() {
 
   // delete task
   const deleteTask = (taskId: number) => {
-    console.log("delete task id :" + taskId);
+    Log.v("delete task id :" + taskId);
     axios
       .delete(`/tasks/${taskId}`, { headers: { token: getUserToken() } })
       .then(() => {
@@ -134,7 +135,7 @@ export default function DashBoard() {
   const handleDeleteTask = () => {
     // modal close
     setDeleteModalShow(false);
-    console.log("delete task");
+    Log.v("delete task");
     if (deleteTaskIdChache == null) {
       return;
     }
@@ -152,9 +153,9 @@ export default function DashBoard() {
 
   // update task
   const updateTask = (data: any) => {
-    console.log("task_name :" + data.taskName);
-    console.log("describe :" + data.describe);
-    console.log("desdline :" + data.deadline);
+    Log.v("task_name :" + data.taskName);
+    Log.v("describe :" + data.describe);
+    Log.v("desdline :" + data.deadline);
     if (data.taskName.length === 0) {
       return;
     }
@@ -173,9 +174,9 @@ export default function DashBoard() {
       task_deadline: data.deadline,
       task_is_completed: 0,
     });
-    console.log(localTasks);
+    Log.v(localTasks);
     setDisplayTask(localTasks);
-    console.log(localTasks);
+    Log.v(localTasks);
     axios
       .patch(
         `/tasks/${updateTaskIdChache}`,

@@ -4,6 +4,7 @@ import {
   setUserToken,
 } from "../datastore/userDataStore";
 import { emitter } from "../service/event";
+import Log from '../lib/log'
 
 export default function Logout() {
   const deleteCache = () => {
@@ -11,7 +12,7 @@ export default function Logout() {
     setUserName("");
     setUserToken("");
     localStorage.setItem("data-user-token", "");
-    console.log("called signout");
+    Log.v("called signout");
     emitter.emit("do-signout");
   };
 
