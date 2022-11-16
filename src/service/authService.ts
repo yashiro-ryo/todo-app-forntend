@@ -7,11 +7,24 @@ import {
 } from "../datastore/userDataStore";
 import { emitter } from "../service/event";
 import axios from "../config/axiosConfig";
+import { BASE_URL } from "../config/urlConfig";
 
 export default function signin() {
-  const token = localStorage.getItem("data-user-token");
-  //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJ1c2VyTmFtZSI6IuW-s-WztuWkqumDjiIsInNldHRpbmciOnsiaXNEZWxldGVNb2RhbFNob3ciOjF9LCJpYXQiOjE2NTQ5NTg4ODZ9.3QRqu_-DMA-nlhKvx39-ihsacMb0mKVhXMO5j0nE4no";
-  if (token?.length !== 0 && token !== null) {
+  var token = "";
+  var localToken = localStorage.getItem("data-user-token");
+  if (process.env.NODE_ENV === "development") {
+    token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJ1c2VyTmFtZSI6InRlc3TlpKrpg44iLCJzZXR0aW5nIjp7ImlzRGVsZXRlTW9kYWxTaG93IjoxfSwiaWF0IjoxNjY4NTMwNjMyfQ.c4V2xZves6gyJS8SPBD7a-gaaom4BL2QkXcEkU5MY2o";
+  } else if (localToken !== null) {
+    token = localToken;
+  }
+
+  if (token === null || token === undefined) {
+    window.location.href = BASE_URL + "/singin";
+    return;
+  }
+
+  if (token.length !== 0) {
     setTimeout(() => {
       console.log("token exists local storage");
       setUserToken(token);
@@ -20,7 +33,7 @@ export default function signin() {
     }, 200);
     return;
   } else {
-    window.location.href = "https://todo-app-yashiro.herokuapp.com/signin";
+    window.location.href = BASE_URL + "/signin";
     return;
   }
 }
