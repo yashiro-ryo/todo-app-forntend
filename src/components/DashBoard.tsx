@@ -274,7 +274,7 @@ export default function DashBoard() {
           <Card.Header>タスク</Card.Header>
           <Card.Body>
             {isShowLoadingPane ? (
-              LoadingPane()
+              <LoadingPane />
             ) : (
               <ListGroup>
                 <Tasks
