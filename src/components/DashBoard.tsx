@@ -23,6 +23,7 @@ import {
 import { emitter } from "../service/event";
 import LoadingPane from "./LoadingPane";
 import DeleteTaskModal from "./DeleteTaskModal";
+import Tasks from "./Tasks";
 
 export type TaskContents = {
   task_id: number;
@@ -200,37 +201,6 @@ export default function DashBoard() {
     emitter.off("signin-ok", () => {});
   });
 
-  const displayTaskInline = (taskArray: Array<TaskContents>) => {
-    if (taskArray.length === 0) {
-      return <div className="task-empty-view">タスクがありません</div>;
-    }
-    return (
-      <ListGroup>
-        {taskArray.map((value, index) => {
-          return (
-            <ListGroupItem key={index}>
-              <p>{value.task_name}</p>
-              <Button
-                className="btn btn-secondary"
-                onClick={handleEditModalShow}
-                data-task-id={value.task_id}
-              >
-                編集
-              </Button>
-              <Button
-                className="btn btn-danger"
-                onClick={handleDeleteModalShow}
-                data-task-id={value.task_id}
-              >
-                削除
-              </Button>
-            </ListGroupItem>
-          );
-        })}
-      </ListGroup>
-    );
-  };
-
   const editTaskModal = () => {
     return (
       <Modal show={showEditModal} onHide={handleEditModalClose}>
@@ -309,7 +279,13 @@ export default function DashBoard() {
             {isShowLoadingPane ? (
               LoadingPane()
             ) : (
-              <ListGroup>{displayTaskInline(task)}</ListGroup>
+              <ListGroup>
+                <Tasks
+                  tasks={task}
+                  handleEditModalShow={handleEditModalShow}
+                  handleDeleteModalShow={handleDeleteModalShow}
+                />
+              </ListGroup>
             )}
           </Card.Body>
         </Card>
