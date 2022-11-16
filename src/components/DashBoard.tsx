@@ -1,6 +1,6 @@
 import axios from "../config/axiosConfig";
 import { useState } from "react";
-import { Card, Container, ListGroup } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import "../style/DashBoard.scss";
 import { useForm } from "react-hook-form";
 import React from "react";
@@ -11,12 +11,11 @@ import {
   getSettings,
 } from "../datastore/userDataStore";
 import { emitter } from "../service/event";
-import LoadingPane from "./LoadingPane";
 import DeleteTaskModal from "./DeleteTaskModal";
-import Tasks from "./Tasks";
 import Log from "../lib/log";
 import CreateNewTask from "./CreateNewTask";
 import EditTaskModal from "./EditTaskModal";
+import DisplayTasks from "./DisplayTasks";
 
 export type TaskContents = {
   task_id: number;
@@ -200,22 +199,12 @@ export default function DashBoard() {
           handleCreateNewTask={handleCreateNewTask}
           createTaskErrorMsg={taskErrorMsg}
         />
-        <Card className="card uncomplete-task">
-          <Card.Header>タスク</Card.Header>
-          <Card.Body>
-            {isShowLoadingPane ? (
-              <LoadingPane />
-            ) : (
-              <ListGroup>
-                <Tasks
-                  tasks={task}
-                  handleEditModalShow={handleEditModalShow}
-                  handleDeleteModalShow={handleDeleteModalShow}
-                />
-              </ListGroup>
-            )}
-          </Card.Body>
-        </Card>
+        <DisplayTasks
+          isLoadingVisible={isShowLoadingPane}
+          tasks={task}
+          handleEditModalShow={handleEditModalShow}
+          handleDeleteModalShow={handleDeleteModalShow}
+        />
       </Container>
       <EditTaskModal
         isEditModalVisible={showEditModal}
