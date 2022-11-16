@@ -1,12 +1,11 @@
 import axios from "../config/axiosConfig";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Card,
   Container,
   Form,
   Button,
   ListGroup,
-  ListGroupItem,
   Modal,
 } from "react-bootstrap";
 import "../style/DashBoard.scss";
@@ -14,10 +13,8 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import {
   getUserToken,
-  getUserId,
   setTasks,
   getTasks,
-  addOneTask,
   getSettings,
 } from "../datastore/userDataStore";
 import { emitter } from "../service/event";
