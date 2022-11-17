@@ -25,11 +25,6 @@ jobs:
           npm install
         working-directory: src
 
-      - name: Build
-        run: |
-          npm run build
-        working-directory: src
-
       - name: Test
         run: |
           npm run test
